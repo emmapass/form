@@ -1,0 +1,4 @@
+<div *ngFor="let alert of alerts" class="alert alert-primary" role="alert">
+    <!--<a class="close" (click)="removeAlert(alert)">&times;</a> --><!--once alert is removed if it is the only one then none will display because alerts will be empty-->
+    <span [innerHTML]="alert.message"></span>
+</div>
