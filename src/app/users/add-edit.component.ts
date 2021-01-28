@@ -20,13 +20,10 @@ export class AddEditComponent implements OnChanges {
 
     constructor(
         private formBuilder: FormBuilder,
-        private route: ActivatedRoute,
-        private router: Router,
-        private userService: UserService,
-        private alertService: AlertService
+     
 
     ) {
-        this.isAddMode = !this.user.id;
+        this.isAddMode = !this.user?.id;
         
         // password not required in edit mode
         const passwordValidators = [Validators.minLength(6)];
