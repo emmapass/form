@@ -30,7 +30,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
        // HomeComponent
     ],
     providers: [
-        //{ provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+       // { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
         
         // provider used to create fake backend
        // fakeBackendProvider
