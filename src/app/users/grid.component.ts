@@ -99,7 +99,9 @@ export class GridComponent implements OnInit {
 
     console.log("user", this.user);
     //ADD LOADING FROM USERSERVICE ACTUALLY NO NEED this.loading = true;
-    this.userService.postUser(this.user, this.id);
+    if (this.isFormValid()) {
+      this.userService.postUser(this.user, this.id);
+    }
     /*  if (this.isAddMode) {
         this.createUser();
     } else {

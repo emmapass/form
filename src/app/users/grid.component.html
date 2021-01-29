@@ -2,7 +2,7 @@
 	<mat-grid-tile *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows">
 
 		<div *ngIf="tile.addEdit">
-			<app-add-asdf [user]="user" (isValid)="userValid = $event" (formValue)="user = $event"></app-add-asdf>
+			<app-add-asdf [submitted]="submitted" [user]="user" (isValid)="userValid = $event" (formValue)="user = $event"></app-add-asdf>
 			<!--<app-add [user]=" user" (isValid)="userValid = $event">
 				</app-add>
 				<h1 *ngIf="isAddMode">Add User</h1>
@@ -13,7 +13,7 @@
 
 	</mat-grid-tile>
 </mat-grid-list>
-<button [disabled]="!isFormValid()" (click)="onSubmit()">Submit</button>
+<button  (click)="onSubmit()">Submit</button>
 
 <!--<div [formGroup]="form">
 	<div class="form-group">

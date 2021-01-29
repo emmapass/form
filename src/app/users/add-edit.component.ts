@@ -20,7 +20,8 @@ import { MustMatch } from "../_helpers/must-match.validator";
 import { User, BlankUser } from "../_models/user";
 @Component({ templateUrl: "add-edit.component.html", selector: "app-add-asdf" })
 export class AddEditComponent implements OnChanges {
-  @Input() user: User;
+  @Input() user: User
+  @Input() submitted = false
   @Output() isValid = new EventEmitter();
   @Output() formValue = new EventEmitter();
   userForm: FormGroup;
@@ -29,7 +30,7 @@ export class AddEditComponent implements OnChanges {
   id!: string;
   isAddMode!: boolean;
   loading = false;
-  submitted = false;
+  //submitted = false;
 
   constructor(private formBuilder: FormBuilder) {
     // password not required in edit mode
