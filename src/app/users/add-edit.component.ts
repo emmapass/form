@@ -1,89 +1,110 @@
-import { Component, OnInit, Input, Output, OnChanges, EventEmitter } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AbstractControlOptions, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { first } from 'rxjs/operators';
-import {  AlertService } from '../_services/alert.service'; 
-import { UserService } from '../_services/user.service';
-import { MustMatch } from '../_helpers/must-match.validator';
-import { User, BlankUser } from '../_models/user'
-@Component({ templateUrl: 'add-edit.component.html',   selector: 'app-add-asdf',})
+import {
+  Component,
+  OnInit,
+  Input,
+  Output,
+  OnChanges,
+  EventEmitter
+} from "@angular/core";
+import { Router, ActivatedRoute } from "@angular/router";
+import {
+  AbstractControlOptions,
+  FormBuilder,
+  FormGroup,
+  Validators
+} from "@angular/forms";
+import { first } from "rxjs/operators";
+import { AlertService } from "../_services/alert.service";
+import { UserService } from "../_services/user.service";
+import { MustMatch } from "../_helpers/must-match.validator";
+import { User, BlankUser } from "../_models/user";
+@Component({ templateUrl: "add-edit.component.html", selector: "app-add-asdf" })
 export class AddEditComponent implements OnChanges {
-    @Input() user: User;
-    @Output() isValid = new EventEmitter();
-    @Output() formValue = new EventEmitter();
-    userForm: FormGroup
-   
+  @Input() user: User;
+  @Output() isValid = new EventEmitter();
+  @Output() formValue = new EventEmitter();
+  userForm: FormGroup;
+
   //  form!: FormGroup;
-    id!: string;
-    isAddMode!: boolean;
-    loading = false;
-    submitted = false;
+  id!: string;
+  isAddMode!: boolean;
+  loading = false;
+  submitted = false;
 
-    constructor(
-        private formBuilder: FormBuilder,
-     
-
-    ) {
-        this.isAddMode = !this.user?.id;
-        
-        // password not required in edit mode
-        const passwordValidators = [Validators.minLength(6)];
-        if (this.isAddMode) {
-            passwordValidators.push(Validators.required);
-        }
-        //interface for options provided to AbstractControl
-        //formOptions is then passed into the formBuilder.group and checks that password and confirm password are the same
-        //https://angular.io/api/forms/FormBuilder 
-        const formOptions: AbstractControlOptions = { validators: MustMatch('password', 'confirmPassword') };
-       
-        this.userForm = this.formBuilder.group({
-            title: ['', Validators.required],
-            firstName: ['', Validators.required],
-            lastName: ['', Validators.required],
-            email: ['', [Validators.required, Validators.email]],
-            role: ['', Validators.required],
-            password: ['', passwordValidators],
-            confirmPassword: ['', this.isAddMode ? Validators.required : Validators.nullValidator]
-            //only need the validators on the password if it is in edit mode
-        }, formOptions);
-        console.log('user form', this.userForm)
-         if (!this.isAddMode) {
-           console.log('before pathbalue', this.user)
-           this.userForm.patchValue(this.user)
-        }
-         // here we are subscribing to changes to the form. This will fire anytime there is a change in our form.
-        this.userForm.valueChanges.subscribe(() => { //valueChanges returns an observable that emits the latest form values
-            console.log('emitting', this.userForm.valid)
-            this.isValid.emit(this.userForm.valid)
-            this.formValue.emit(this.userForm.value)
-            
-        });
+  constructor(private formBuilder: FormBuilder) {
+    // password not required in edit mode
+    const passwordValidators = [Validators.minLength(6)];
+    if (this.isAddMode) {
+      passwordValidators.push(Validators.required);
     }
+    //interface for options provided to AbstractControl
+    //formOptions is then passed into the formBuilder.group and checks that password and confirm password are the same
+    //https://angular.io/api/forms/FormBuilder
+    const formOptions: AbstractControlOptions = {
+      validators: MustMatch("password", "confirmPassword")
+    };
 
-    ngOnChanges () {
-/* 
+    this.userForm = this.formBuilder.group(
+      {
+        title: ["", Validators.required],
+        firstName: ["", Validators.required],
+        lastName: ["", Validators.required],
+        email: ["", [Validators.required, Validators.email]],
+        role: ["", Validators.required],
+        password: ["", passwordValidators],
+        confirmPassword: [
+          "",
+          this.isAddMode ? Validators.required : Validators.nullValidator
+        ]
+        //only need the validators on the password if it is in edit mode
+      },
+      formOptions
+    );
+
+  
+  }
+
+  ngOnChanges() {
+    /*
      * ngModel will throw when trying to access properties of our
      * model when the model itself is undefined. This will happen
      * often as our application handles async data.
      */
 
-    if ( !this.user ) {
-        this.user = new BlankUser()
-      }
+    if (!this.user) {
+      this.user = new BlankUser();
     }
+  }
 
-    ngOnInit() {
-       // console.log('id:', this.id, 'type of id:', typeof this.id)
+  ngOnInit() {
+    console.log("user form", this.userForm);
+    console.log("addMode", this.isAddMode);
+    console.log("user before patch", this.user);
+    this.isAddMode = !this.user?.id;
+
+    if (!this.isAddMode) {
+      console.log("before pathbalue", this.user);
+      this.userForm.patchValue(this.user);
+    }
+      // here we are subscribing to changes to the form. This will fire anytime there is a change in our form.
+    this.userForm.valueChanges.subscribe(() => {
+      //valueChanges returns an observable that emits the latest form values
+      console.log("emitting", this.userForm.valid);
+      this.isValid.emit(this.userForm.valid);
+      console.log('before emit', this.userForm.value)
+      
+      this.formValue.emit(this.userForm.value);
+    });
+    // console.log('id:', this.id, 'type of id:', typeof this.id)
+  }
   
 
-        
-    }
+  // convenience getter for easy access to form fields
+  get f() {
+    return this.userForm.controls;
+  }
 
-    // convenience getter for easy access to form fields
-    get f() { return this.userForm.controls; }
-
-   
-/*
+  /*
     private createUser() {
         console.log('id: create', this.id)
         this.userService.createUser(this.form.value)

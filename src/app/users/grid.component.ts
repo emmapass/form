@@ -23,7 +23,7 @@ import { first, switchMap } from "rxjs/operators";
 })
 export class GridComponent implements OnInit {
   // here we instantiate our form variables for our models.
-  user: Observable<User>;
+  user: User; // switching because not using ngmodel to bind Observable<User>;
   private userValid: boolean = false;
   id!: string;
   isAddMode: boolean = false;
@@ -72,7 +72,9 @@ export class GridComponent implements OnInit {
     this.id = this.route.snapshot.params["id"]; //just a number based off of when the user was added ex. 1 or 2 or 3. Will be undefined when adding a new user.
     this.isAddMode = !this.id;
     if (!this.isAddMode) {
-      this.user = this.userService.getById(this.id);
+      //this.user = this.userService.getById(this.id);
+      this.userService.getById(this.id).subscribe(user => (this.user = user));
+      //this.user.subscribe(user => console.log("getById", user));
       console.log("user after getById", this.user);
       // .pipe(first())
       //  .pipe(switchMap(x => this.user = of(x)))
@@ -97,7 +99,7 @@ export class GridComponent implements OnInit {
 
     console.log("user", this.user);
     //ADD LOADING FROM USERSERVICE ACTUALLY NO NEED this.loading = true;
-    this.userService.postUser(this.user);
+    this.userService.postUser(this.user, this.id);
     /*  if (this.isAddMode) {
         this.createUser();
     } else {

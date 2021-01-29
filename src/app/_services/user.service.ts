@@ -47,11 +47,13 @@ export class UserService {
     console.log("USER:", user);
     return of(this.basicDetails(user));
   }
-  postUser(user /*: Observable<User>/*id, updatedFormValue*/) {
+  postUser(user, id /*: Observable<User>/*id, updatedFormValue*/) {
+    //cannot use user.id because the user from formValue does not include id property
     // user.subscribe(user => {
-    if (user.id) {
+    console.log("user id in post user", user.id);
+    if (id) {
       //id not undefined
-      this.updateUser(user.id, user)
+      this.updateUser(id, user)
         .pipe(first())
         .subscribe(() => {
           this.alertService.success("User updated", {
@@ -78,6 +80,8 @@ export class UserService {
   }
   updateUser(id, updatedFormValue) {
     let user = users.find(x => x.id === id);
+    console.log("updated form value email", updatedFormValue.email);
+    console.log("user email", user.email);
     //if updated email is different than the one stored AND this updated email is associated with a user
     if (
       updatedFormValue.email !== user.email &&
