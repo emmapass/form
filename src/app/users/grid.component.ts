@@ -1,11 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import {Observable, of} from 'rxjs';
-import { Router, ActivatedRoute } from '@angular/router';
-import { AlertService } from '../_services/alert.service'
-import { Tile } from '../_models/tile';
-import { UserService } from '../_services/user.service';
-import { User } from '../_models/user';
-import { first, switchMap } from 'rxjs/operators';
+import { Component, OnInit } from "@angular/core";
+import { Observable, of } from "rxjs";
+import { Router, ActivatedRoute } from "@angular/router";
+import { AlertService } from "../_services/alert.service";
+import { Tile } from "../_models/tile";
+import { UserService } from "../_services/user.service";
+import { User } from "../_models/user";
+import { first, switchMap } from "rxjs/operators";
 
 /*export interface Tile {
   color: string;
@@ -16,23 +16,22 @@ import { first, switchMap } from 'rxjs/operators';
 
 }*/
 
-
 @Component({
-  selector: 'app-grid',
-  templateUrl: './grid.component.html',
+  selector: "app-grid",
+  templateUrl: "./grid.component.html"
   //styleUrls: ['./grid.component.css']
 })
 export class GridComponent implements OnInit {
-// here we instantiate our form variables for our models.
+  // here we instantiate our form variables for our models.
   user: Observable<User>;
   private userValid: boolean = false;
   id!: string;
   isAddMode: boolean = false;
-  tiles: Tile[] = []
-  text = ['one', 'two', 'three', 'four']
-  cols = [1, 1, 1, 1]
-  rows = [1,1,1,1]
-  colors = ['lightgreen', 'lightblue', 'lightpink', '#DDBDF1']
+  tiles: Tile[] = [];
+  text = ["one", "two", "three", "four"];
+  cols = [1, 1, 1, 1];
+  rows = [1, 1, 1, 1];
+  colors = ["lightgreen", "lightblue", "lightpink", "#DDBDF1"];
   submitted = false;
 
   /*tiles: Tile[] = [
@@ -41,52 +40,50 @@ export class GridComponent implements OnInit {
     {text: 'Three', cols: 1, rows: 1, color: 'lightpink'},
     {text: 'Four', cols: 1, rows: 1, color: '#DDBDF1'},
   ];*/
-  constructor( 
+  constructor(
     private userService: UserService,
     private alertService: AlertService,
     private route: ActivatedRoute,
-    private router: Router,
-
-  ) { 
+    private router: Router
+  ) {
     //this.tiles[0] = new Tile()
     for (let i = 0; i < 4; i++) {
-      this.tiles.push(new Tile())
+      this.tiles.push(new Tile());
     }
-    console.log('tiles', this.tiles)
-   
+    console.log("tiles", this.tiles);
   }
 
   ngOnInit(): void {
     //set up tiles
     for (let index = 0; index < this.tiles.length; index++) {
-      this.tiles[index].text = this.text[index]
-      this.tiles[index].cols = this.cols[index]
-      this.tiles[index].rows = this.rows[index]
-      this.tiles[index].color = this.colors[index]
+      this.tiles[index].text = this.text[index];
+      this.tiles[index].cols = this.cols[index];
+      this.tiles[index].rows = this.rows[index];
+      this.tiles[index].color = this.colors[index];
     }
-    
+
     this.tiles[0].addEdit = true;
     this.tiles[1].addEdit2 = true;
     this.tiles[2].addEdit3 = true;
     this.tiles[3].addEdit4 = true;
-    console.log('tiles 2', JSON.stringify(this.tiles))
-    
-    //get data from userService
-    this.id = this.route.snapshot.params['id']; //just a number based off of when the user was added ex. 1 or 2 or 3. Will be undefined when adding a new user. 
-    this.isAddMode = !this.id
-    if (!this.isAddMode) {
-      this.user = this.userService.getById(this.id)
-         // .pipe(first())
-       //  .pipe(switchMap(x => this.user = of(x)))
-      //   .subscribe(x => console.log('x', x))
-         // .subscribe(x => this.user = x)
-          //.subscribe(x => this.form.patchValue(x));
-      //console.log('form:', this.form)
-  }
+    console.log("tiles 2", JSON.stringify(this.tiles));
 
+    //get data from userService
+    this.id = this.route.snapshot.params["id"]; //just a number based off of when the user was added ex. 1 or 2 or 3. Will be undefined when adding a new user.
+    this.isAddMode = !this.id;
+    if (!this.isAddMode) {
+      this.user = this.userService.getById(this.id);
+      console.log("user after getById", this.user);
+      // .pipe(first())
+      //  .pipe(switchMap(x => this.user = of(x)))
+      //   .subscribe(x => console.log('x', x))
+      // .subscribe(x => this.user = x)
+      //.subscribe(x => this.form.patchValue(x));
+      //console.log('form:', this.form)
+    }
   }
   isFormValid() {
-    if ( this.userValid ) {
+    if (this.userValid) {
       return true;
     } else {
       return false;
@@ -98,15 +95,13 @@ export class GridComponent implements OnInit {
     // reset alerts on submit
     this.alertService.clear();
 
-  
-
-   //ADD LOADING FROM USERSERVICE ACTUALLY NO NEED this.loading = true;
-    this.userService.postUser(this.user)
-  /*  if (this.isAddMode) {
+    console.log("user", this.user);
+    //ADD LOADING FROM USERSERVICE ACTUALLY NO NEED this.loading = true;
+    this.userService.postUser(this.user);
+    /*  if (this.isAddMode) {
         this.createUser();
     } else {
         this.updateUser();
     }*/
-}
-
+  }
 }

@@ -2,17 +2,18 @@
 	<mat-grid-tile *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows">
 
 		<div *ngIf="tile.addEdit">
-			<app-add-asdf></app-add-asdf>
-			<!--<app-add [user]="user" (isValid)="userValid = $event"></app-add>
-            <h1 *ngIf="isAddMode">Add User</h1>
-            <h1 *ngIf="!isAddMode">Edit User</h1>
-            <app-add-edit>[user]="user" (isValid)="userValid = $event"</app-add-edit> -->
+			<app-add-asdf [user]="user" (isValid)="userValid = $event" (formValue)="user = $event"></app-add-asdf>
+			<!--<app-add [user]=" user" (isValid)="userValid = $event">
+				</app-add>
+				<h1 *ngIf="isAddMode">Add User</h1>
+				<h1 *ngIf="!isAddMode">Edit User</h1>
+				<app-add-edit>[user]="user" (isValid)="userValid = $event"</app-add-edit> -->
 		</div>
 
 
 	</mat-grid-tile>
 </mat-grid-list>
-<button [disabled]="isFormValid()" (click)="onSubmit()">Submit</button>
+<button [disabled]="!isFormValid()" (click)="onSubmit()">Submit</button>
 
 <!--<div [formGroup]="form">
 	<div class="form-group">

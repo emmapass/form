@@ -10,9 +10,10 @@ import { User, BlankUser } from '../_models/user'
 export class AddEditComponent implements OnChanges {
     @Input() user: User;
     @Output() isValid = new EventEmitter();
+    @Output() formValue = new EventEmitter();
     userForm: FormGroup
    
-    form!: FormGroup;
+  //  form!: FormGroup;
     id!: string;
     isAddMode!: boolean;
     loading = false;
@@ -45,9 +46,17 @@ export class AddEditComponent implements OnChanges {
             confirmPassword: ['', this.isAddMode ? Validators.required : Validators.nullValidator]
             //only need the validators on the password if it is in edit mode
         }, formOptions);
+        console.log('user form', this.userForm)
+         if (!this.isAddMode) {
+           console.log('before pathbalue', this.user)
+           this.userForm.patchValue(this.user)
+        }
          // here we are subscribing to changes to the form. This will fire anytime there is a change in our form.
         this.userForm.valueChanges.subscribe(() => { //valueChanges returns an observable that emits the latest form values
+            console.log('emitting', this.userForm.valid)
             this.isValid.emit(this.userForm.valid)
+            this.formValue.emit(this.userForm.value)
+            
         });
     }
 
@@ -71,7 +80,7 @@ export class AddEditComponent implements OnChanges {
     }
 
     // convenience getter for easy access to form fields
-    get f() { return this.form.controls; }
+    get f() { return this.userForm.controls; }
 
    
 /*
