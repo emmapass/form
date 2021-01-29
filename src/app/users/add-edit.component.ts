@@ -85,6 +85,8 @@ export class AddEditComponent implements OnChanges {
     if (!this.isAddMode) {
       console.log("before pathbalue", this.user);
       this.userForm.patchValue(this.user);
+      this.isValid.emit(this.userForm.valid); //because the form is valid at this point; without this you will have to edit the form to activate the submit button
+
     }
       // here we are subscribing to changes to the form. This will fire anytime there is a change in our form.
     this.userForm.valueChanges.subscribe(() => {
