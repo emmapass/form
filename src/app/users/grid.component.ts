@@ -6,7 +6,7 @@ import { Tile } from "../_models/tile";
 import { UserService } from "../_services/user.service";
 import { User } from "../_models/user";
 import { first, switchMap } from "rxjs/operators";
-
+import { Mat } from '../_models/mat'
 /*export interface Tile {
   color: string;
   cols: number;
@@ -24,7 +24,9 @@ import { first, switchMap } from "rxjs/operators";
 export class GridComponent implements OnInit {
   // here we instantiate our form variables for our models.
   user: User; // switching because not using ngmodel to bind Observable<User>;
+  mat: Mat;
   private userValid: boolean = false;
+  //private matValid: boolean = false;
   id!: string;
   isAddMode: boolean = false;
   tiles: Tile[] = [];

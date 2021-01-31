@@ -140,7 +140,10 @@ export class UserService {
   }
   error(message: any) {
     console.log("EMAIL ALREADY EXISTS");
-    this.alertService.error('User email already exists', { keepAfterRouteChange: false, autoClose: false });
+    this.alertService.error("User email already exists", {
+      keepAfterRouteChange: false,
+      autoClose: false
+    });
 
     return throwError({ error: { message } }).pipe(
       materialize(),

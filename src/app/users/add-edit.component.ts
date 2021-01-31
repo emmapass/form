@@ -19,17 +19,17 @@ import { UserService } from "../_services/user.service";
 import { MustMatch } from "../_helpers/must-match.validator";
 import { User, BlankUser } from "../_models/user";
 @Component({ templateUrl: "add-edit.component.html", selector: "app-add-asdf" })
-export class AddEditComponent implements OnChanges {
+export class AddEditComponent implements OnInit {
   @Input() user: User
   @Input() submitted = false
   @Output() isValid = new EventEmitter();
-  @Output() formValue = new EventEmitter();
+  @Output() userFormValue = new EventEmitter();
   userForm: FormGroup;
 
   //  form!: FormGroup;
   id!: string;
   isAddMode!: boolean;
-  loading = false;
+  //loading = false;
   //submitted = false;
 
   constructor(private formBuilder: FormBuilder) {
@@ -65,17 +65,7 @@ export class AddEditComponent implements OnChanges {
   
   }
 
-  ngOnChanges() {
-    /*
-     * ngModel will throw when trying to access properties of our
-     * model when the model itself is undefined. This will happen
-     * often as our application handles async data.
-     */
 
-    if (!this.user) {
-      this.user = new BlankUser();
-    }
-  }
 
   ngOnInit() {
     console.log("user form", this.userForm);
@@ -83,7 +73,7 @@ export class AddEditComponent implements OnChanges {
     console.log("user before patch", this.user);
     this.isAddMode = !this.user?.id;
 
-    if (!this.isAddMode) {
+    if (!this.isAddMode) { //if editing
       console.log("before pathbalue", this.user);
       this.userForm.patchValue(this.user);
       this.isValid.emit(this.userForm.valid); //because the form is valid at this point; without this you will have to edit the form to activate the submit button
@@ -96,7 +86,7 @@ export class AddEditComponent implements OnChanges {
       this.isValid.emit(this.userForm.valid);
       console.log('before emit', this.userForm.value)
       
-      this.formValue.emit(this.userForm.value);
+      this.userFormValue.emit(this.userForm.value);
     });
     // console.log('id:', this.id, 'type of id:', typeof this.id)
   }
