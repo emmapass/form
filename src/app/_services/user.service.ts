@@ -9,7 +9,22 @@ import { Router, ActivatedRoute } from "@angular/router";
 
 // array in local storage for registered users
 const usersKey = "angular-11-crud-example-users";
-const usersJSON = localStorage.getItem(usersKey); //will return null if no users have been made
+let bigForm = JSON.parse(localStorage.getItem(usersKey))
+console.log('initialize', bigForm)
+//bigForm = JSON.parse(bigForm)
+let users = bigForm?.users ? bigForm?.users : [
+      {
+        //if null (i.e. no users the user will be Mr. Joe) otherwise the users will be the ones associated withu the key userKey
+        id: "1",
+        title: "Mr",
+        firstName: "Joe",
+        lastName: "Bloggs",
+        email: "joe@bloggs.com",
+        role: Role.User,
+        password: "joe123"
+      }
+    ];
+/*const usersJSON = localStorage.getItem(usersKey); //will return null if no users have been made
 let users: any[] = usersJSON
   ? JSON.parse(usersJSON)
   : [
@@ -23,7 +38,7 @@ let users: any[] = usersJSON
         role: Role.User,
         password: "joe123"
       }
-    ];
+    ];*/
 
 @Injectable({
   providedIn: "root"
@@ -33,6 +48,8 @@ export class UserService {
   loading = false;
   usersNew!: User[];
   getAll() {
+
+    console.log(users.map(x => this.basicDetails(x)))
     return of(users.map(x => this.basicDetails(x))); //of creates an observable
   }
   getById(id) {
@@ -99,7 +116,12 @@ export class UserService {
 
     // update and save user
     Object.assign(user, updatedFormValue);
-    localStorage.setItem(usersKey, JSON.stringify(users));
+   // bigForm.users = users
+   // bigForm.mat = 'matstring'
+    bigForm = {users: users}
+    console.log('updated JSON', JSON.stringify(bigForm))
+    localStorage.setItem(usersKey, JSON.stringify(bigForm))
+    //localStorage.setItem(usersKey, JSON.stringify(users));
 
     return of(1); //just to immitate waiting for the request to be completed
   }
@@ -116,7 +138,11 @@ export class UserService {
     console.log("user", user);
     delete user.confirmPassword;
     users.push(user); //add user to users array
-    localStorage.setItem(usersKey, JSON.stringify(users));
+   // bigForm.users = users
+    bigForm = {users: users}
+    localStorage.setItem(usersKey, JSON.stringify(bigForm));
+    console.log('bigForm', JSON.stringify(bigForm))
+    //localStorage.setItem(usersKey, JSON.stringify(users));
 
     return of(1);
   }
@@ -126,15 +152,13 @@ export class UserService {
     return of(1);
   }
   basicDetails(user: any) {
-    const { id, title, firstName, lastName, email, role } = user;
+    console.log('user in basic details', user)
+    let filtered = Object.fromEntries(Object.entries(user).filter(e => ['id', 'title', 'firstName', 'lastName', 'email', 'role'].includes(e[0])))
+    //const { id, title, firstName, lastName, email, role } = user;
     let newuser = new User();
-    //not sure how to do this more efficiently
-    newuser.id = id;
-    newuser.title = title;
-    newuser.firstName = firstName;
-    newuser.lastName = lastName;
-    newuser.email = email;
-    newuser.role = role;
+    Object.assign(newuser, filtered)
+
+    console.log('newuser',newuser)
     //let emma = Object.assign(newuser, { id, title, firstName, lastName, email, role })
     return newuser;
   }
