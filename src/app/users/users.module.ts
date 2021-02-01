@@ -12,6 +12,8 @@ import { AddEditComponent } from './add-edit.component';
 import { GridComponent } from './grid.component';
 import { AddEdit2Component } from './add-edit2.component';
 import { MatformComponent } from './matform.component'
+import {MatChipsModule} from '@angular/material/chips';
+
 
 @NgModule({
     imports: [
@@ -21,7 +23,8 @@ import { MatformComponent } from './matform.component'
         MatGridListModule,
         MatFormFieldModule,
         MatSelectModule,
-        MatInputModule
+        MatInputModule,
+        MatChipsModule
     ],
     declarations: [
         LayoutComponent,

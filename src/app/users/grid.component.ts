@@ -30,10 +30,10 @@ export class GridComponent implements OnInit {
   id!: string;
   isAddMode: boolean = false;
   tiles: Tile[] = [];
-  text = ["one", "two", "three", "four"];
-  cols = [1, 1, 1, 1];
-  rows = [1, 1, 1, 1];
-  colors = ["lightgreen", "lightblue", "lightpink", "#DDBDF1"];
+  text = ["one", "two"];
+  cols = [1, 1];
+  rows = [1, 1];
+  colors = ["lightgreen", "lightblue"];
   submitted = false;
 
   /*tiles: Tile[] = [
@@ -66,8 +66,8 @@ export class GridComponent implements OnInit {
 
     this.tiles[0].addEdit = true;
     this.tiles[1].addEdit2 = true;
-    this.tiles[2].addEdit3 = true;
-    this.tiles[3].addEdit4 = true;
+   // this.tiles[2].addEdit3 = true;
+   // this.tiles[3].addEdit4 = true;
     console.log("tiles 2", JSON.stringify(this.tiles));
 
     //get data from userService

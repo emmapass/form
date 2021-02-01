@@ -1,5 +1,5 @@
-<mat-grid-list cols="2" rowHeight="500px">
-	<mat-grid-tile *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows">
+<mat-grid-list cols="2" rowHeight="500px" gutterSize="20px">
+	<mat-grid-tile *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows" rowHeight="fix">
 
 		<div *ngIf="tile.addEdit">
 			<app-add-asdf [submitted]="submitted" [user]="user" (isValid)="userValid = $event"

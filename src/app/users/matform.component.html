@@ -22,5 +22,13 @@
     <mat-label>Textarea</mat-label>
     <textarea formControlName="textarea" matInput></textarea>
   </mat-form-field>
+  <mat-form-field>
+  <mat-chip-list #chipList>
+    <mat-chip>Chip 1</mat-chip>
+    <mat-chip>Chip 2</mat-chip>
+  </mat-chip-list>
+  <input       placeholder="New fruit..."
+[matChipInputFor]="chipList">
+</mat-form-field>
 </form>
   
