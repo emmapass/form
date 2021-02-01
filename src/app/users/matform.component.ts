@@ -15,7 +15,7 @@ import {
   Validators
 } from "@angular/forms";
 import { Mat, BlankMat } from "../_models/mat";
-
+import { ChipsAutocompleteExample } from "./chip-list/chip-list.component"
 @Component({
   selector: "app-matform",
   templateUrl: "./matform.component.html"

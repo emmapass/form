@@ -13,6 +13,7 @@ import { GridComponent } from './grid.component';
 import { AddEdit2Component } from './add-edit2.component';
 import { MatformComponent } from './matform.component'
 import {MatChipsModule} from '@angular/material/chips';
+import { ChipsAutocompleteExample } from './chip-list/chip-list.component';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import {MatChipsModule} from '@angular/material/chips';
         AddEditComponent,
         GridComponent,
         AddEdit2Component,
-        MatformComponent
+        MatformComponent,
+        ChipsAutocompleteExample
     ]
 })
 export class UsersModule { }
