@@ -19,11 +19,11 @@ export class ListComponent implements OnInit {
     .pipe(first())
     .subscribe(users => this.users = users); //set user property
   }
-  deleteUser(id: string) {
+  delete(id: string) {
     const user = this.users.find(x => x.id === id);
     if (!user) return;
     user.isDeleting = true;
-    this.userService.deleteUser(id)
+    this.userService.deleteBigForm(id)
        //.pipe(first())
        .subscribe(() => {
          console.log('emma')

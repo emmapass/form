@@ -49,7 +49,7 @@ export class UserService {
   loading = false;
   usersNew!: User[];
   getAll() {
-
+    console.log('getall mats', mats)
     console.log(users.map(x => this.basicUserDetails(x)))
     return of(users.map(x => this.basicUserDetails(x))); //of creates an observable
   }
@@ -146,7 +146,7 @@ export class UserService {
     this.updateUser(id, updatedUserFormValue)
     return of(1)
   }
-  createUser(updatedFormValue) {
+ /* createUser(updatedFormValue) {
     const user = updatedFormValue;
     console.log("hello?");
     if (users.find(x => x.email === user.email)) {
@@ -174,11 +174,11 @@ export class UserService {
    // bigForm = {users: users, mats: mats}
    // localStorage.setItem(usersKey, JSON.stringify(bigForm));
     return mats;
-  }
+  }*/
   createBigForm (updatedUserFormValue, updatedMatFormValue) {
     const user = updatedUserFormValue;
     const mat = updatedMatFormValue
-    const id = this.newUserId()
+    const id = this.newUserId().toString()
     if (users.find(x => x.email === user.email)) {
       return this.error(`User with the email ${user.email} already exists`);
     }
@@ -195,9 +195,11 @@ export class UserService {
    // bigForm = {users: this.createUser(updatedUserFormValue), mats: this.createMat(updatedMatFormValue)}
     return of(1)
   }
-  deleteUser(id) {
+  deleteBigForm(id) {
     users = users.filter(x => x.id !== id); //users is now all users that don't have that id
-    localStorage.setItem(usersKey, JSON.stringify(users));
+    mats = mats.filter(x => x.id !== id)
+    bigForm = {users: users, mats: mats}
+    localStorage.setItem(usersKey, JSON.stringify(bigForm));
     return of(1);
   }
   basicUserDetails(user: any) {
