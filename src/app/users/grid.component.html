@@ -10,6 +10,10 @@
 				<h1 *ngIf="!isAddMode">Edit User</h1>
 				<app-add-edit>[user]="user" (isValid)="userValid = $event"</app-add-edit> -->
 		</div>
+    <div *ngIf="tile.addEdit2">
+      <app-matform [submitted]="submitted" [mat]="mat" (matFormValue)="mat = $event"></app-matform>
+    </div>
+
 
 
 	</mat-grid-tile>

@@ -75,9 +75,11 @@ export class GridComponent implements OnInit {
     this.isAddMode = !this.id;
     if (!this.isAddMode) {
       //this.user = this.userService.getById(this.id);
-      this.userService.getById(this.id).subscribe(user => (this.user = user));
+      this.userService.getUserById(this.id).subscribe(user => (this.user = user));
+      this.userService.getMatById(this.id).subscribe(mat => this.mat = mat)
       //this.user.subscribe(user => console.log("getById", user));
       console.log("user after getById", this.user);
+       console.log("mat after getById", this.mat);
       // .pipe(first())
       //  .pipe(switchMap(x => this.user = of(x)))
       //   .subscribe(x => console.log('x', x))
@@ -102,7 +104,8 @@ export class GridComponent implements OnInit {
     console.log("user", this.user);
     //ADD LOADING FROM USERSERVICE ACTUALLY NO NEED this.loading = true;
     if (this.isFormValid()) {
-      this.userService.postUser(this.user, this.id);
+      console.log('onsubmit mat', this.mat)
+      this.userService.postUser(this.mat, this.user, this.id);
     }
     /*  if (this.isAddMode) {
         this.createUser();

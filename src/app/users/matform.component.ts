@@ -38,12 +38,13 @@ export class MatformComponent implements OnInit {
   ];
   matForm: FormGroup;
   constructor(private formBuilder: FormBuilder) {
+    const formOptions: AbstractControlOptions = {}
     this.matForm = this.formBuilder.group({
       topping: '',
       input: '',
       select: '',
       textarea: ''
-    })
+    }, formOptions)
   }
 
   ngOnInit(): void {
@@ -52,8 +53,15 @@ export class MatformComponent implements OnInit {
       //console.log("before pathbalue", this.user);
       this.matForm.patchValue(this.mat);
      //DONT NEED YET BC WE HAVE NO VALIDATORS this.isValid.emit(this.matForm.valid); //because the form is valid at this point; without this you will have to edit the form to activate the submit button
+     console.log('matForm before emit', this.matForm.value)
       this.matFormValue.emit(this.matForm.value);
     }
+    this.matForm.valueChanges.subscribe(() => {
+      //valueChanges returns an observable that emits the latest form values
+      console.log("emitting matForm", this.matForm.value);
+      
+      this.matFormValue.emit(this.matForm.value);
+    });
 
   }
   // convenience getter for easy access to form fields
